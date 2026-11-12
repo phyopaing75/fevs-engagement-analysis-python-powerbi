@@ -1,0 +1,58 @@
+FEVS 2024 - Power Query scripts (one per query)
+In Power BI: Transform data > New Source > Blank Query > Advanced Editor > delete everything > paste ONE script > Done.
+Then rename the query (right panel 'Name') exactly as shown in the QUERY NAME line.
+
+======================================================================
+QUERY NAME: fact_responses
+======================================================================
+let
+    Source = Csv.Document(File.Contents(ModelFolder & "fact_responses.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    Typed = Table.TransformColumnTypes(Promoted, {{"level1", type text}, {"group_key", Int64.Type}, {"question", type text}, {"answered_w", type number}, {"positive_w", type number}, {"negative_w", type number}, {"answered_n", Int64.Type}}, "en-US"),
+    Renamed = Table.RenameColumns(Typed, {{"answered_w", "Weight answered"}, {"positive_w", "Weight positive"}, {"negative_w", "Weight negative"}, {"answered_n", "Answered (count)"}})
+in
+    Renamed
+
+======================================================================
+QUERY NAME: fact_respondents
+======================================================================
+let
+    Source = Csv.Document(File.Contents(ModelFolder & "fact_respondents.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    Typed = Table.TransformColumnTypes(Promoted, {{"level1", type text}, {"group_key", Int64.Type}, {"respondents_n", Int64.Type}, {"weight", type number}}, "en-US"),
+    Renamed = Table.RenameColumns(Typed, {{"respondents_n", "Respondents (count)"}, {"weight", "Weight"}})
+in
+    Renamed
+
+======================================================================
+QUERY NAME: dim_workunit
+======================================================================
+let
+    Source = Csv.Document(File.Contents(ModelFolder & "dim_workunit.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    Typed = Table.TransformColumnTypes(Promoted, {{"level1", type text}, {"work_unit", type text}, {"agency_code", type text}, {"agency", type text}}, "en-US"),
+    Renamed = Table.RenameColumns(Typed, {{"work_unit", "Work unit"}, {"agency_code", "Agency code"}, {"agency", "Agency"}})
+in
+    Renamed
+
+======================================================================
+QUERY NAME: dim_group
+======================================================================
+let
+    Source = Csv.Document(File.Contents(ModelFolder & "dim_group.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    Typed = Table.TransformColumnTypes(Promoted, {{"group_key", Int64.Type}, {"supervisory_status", type text}, {"tenure", type text}, {"leaving_plan", type text}, {"considering_leaving", type text}}, "en-US"),
+    Renamed = Table.RenameColumns(Typed, {{"supervisory_status", "Supervisory status"}, {"tenure", "Tenure"}, {"leaving_plan", "Leaving plan"}, {"considering_leaving", "Considering leaving"}})
+in
+    Renamed
+
+======================================================================
+QUERY NAME: dim_question
+======================================================================
+let
+    Source = Csv.Document(File.Contents(ModelFolder & "dim_question.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    Typed = Table.TransformColumnTypes(Promoted, {{"question", type text}, {"text", type text}, {"index_name", type text}, {"theme", type text}, {"importance_r", type number}, {"leave_if_negative", type number}, {"leave_if_positive", type number}, {"leave_gap_pts", type number}, {"priority", type text}, {"label", type text}, {"is_driver", type logical}, {"sort_order", Int64.Type}}, "en-US"),
+    Renamed = Table.RenameColumns(Typed, {{"question", "Question code"}, {"text", "Question text"}, {"index_name", "Index"}, {"theme", "Theme"}, {"importance_r", "Driver importance (r)"}, {"leave_if_negative", "Leave % if negative"}, {"leave_if_positive", "Leave % if positive"}, {"leave_gap_pts", "Leave gap (pts)"}, {"priority", "Priority"}, {"label", "Question"}, {"is_driver", "Is driver"}, {"sort_order", "Sort order"}})
+in
+    Renamed

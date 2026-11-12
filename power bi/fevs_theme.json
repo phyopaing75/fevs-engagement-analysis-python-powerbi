@@ -1,0 +1,30 @@
+{
+  "name": "FEVS Navy",
+  "dataColors": ["#2B5FA8", "#C8641E", "#14213D", "#9AA8BF", "#5B8BD0", "#E9A46A", "#4A5568", "#D5DBE5"],
+  "good": "#2B5FA8",
+  "neutral": "#9AA8BF",
+  "bad": "#C8641E",
+  "maximum": "#2B5FA8",
+  "center": "#F1F4F8",
+  "minimum": "#C8641E",
+  "background": "#FFFFFF",
+  "foreground": "#14213D",
+  "tableAccent": "#14213D",
+  "textClasses": {
+    "title": { "fontFace": "Segoe UI Semibold", "fontSize": 12, "color": "#14213D" },
+    "header": { "fontFace": "Segoe UI Semibold", "fontSize": 11, "color": "#14213D" },
+    "label": { "fontFace": "Segoe UI", "fontSize": 10, "color": "#4A5568" },
+    "callout": { "fontFace": "Segoe UI Semibold", "fontSize": 28, "color": "#14213D" }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "border": [{ "show": true, "color": { "solid": { "color": "#DDE2EA" } }, "radius": 6 }],
+        "background": [{ "show": true, "color": { "solid": { "color": "#FFFFFF" } }, "transparency": 0 }]
+      }
+    },
+    "page": {
+      "*": { "background": [{ "color": { "solid": { "color": "#F1F4F8" } }, "transparency": 0 }] }
+    }
+  }
+}
